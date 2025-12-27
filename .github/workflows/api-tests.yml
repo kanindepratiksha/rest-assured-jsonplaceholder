@@ -20,5 +20,14 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Run Maven tests
-      run: mvn test -Dsurefire.suiteXmlFiles=testng.xml
+    - name: Build and Test
+      run: |
+        cd bdd-restassured-project
+        mvn clean test -Dsurefire.suiteXmlFiles=testng.xml
+
+    - name: Upload Test Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: surefire-report
+        path: bdd-restassured-project/target/surefire-reports/
